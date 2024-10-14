@@ -6,34 +6,57 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Early Payoff Calculator</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Chart.js library for round-shaped chart -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
-  
+
   <!-- Header Section -->
-  <header>
-    <h1>Home Loan Early Payoff Calculator</h1>
-    <p>Calculate your loan payoff with extra payments and visualize the results!</p>
+  <header class="header">
+    <h1>Early Payoff Calculator</h1>
+    <p>Calculate your home loan early payoff and view detailed amortization schedules.</p>
   </header>
 
   <div class="container">
-    <!-- Loan Details Form -->
+    <h2>Loan Details</h2>
     <form id="payoff-calculator">
-      <!-- Form fields omitted for brevity -->
+      <label for="loan-amount">Loan Amount ($):</label>
+      <input type="number" id="loan-amount" required><br>
+
+      <label for="interest-rate">Interest Rate (%):</label>
+      <input type="number" id="interest-rate" required><br>
+
+      <label for="loan-term">Loan Term (Years):</label>
+      <input type="number" id="loan-term" required><br>
+
+      <label for="current-monthly-payment">Current Monthly Payment ($):</label>
+      <input type="number" id="current-monthly-payment" required><br>
+
+      <label for="payoff-goal">Payoff Goal (Years):</label>
+      <input type="number" id="payoff-goal" required><br>
+
+      <label for="extra-payment-amount">Extra Payment Amount ($):</label>
+      <input type="number" id="extra-payment-amount"><br>
+
+      <button type="button" onclick="calculatePayoff()">Calculate</button>
+      <button type="button" onclick="exportToPDF()">Export to PDF</button>
     </form>
 
-    <!-- Results Section -->
-    <div id="result-summary"></div>
+    <!-- Result section -->
+    <div id="result-summary">
+      <!-- Calculation results will go here -->
+    </div>
 
-    <!-- Chart Section -->
-    <h2>Payoff Progress</h2>
-    <canvas id="payoff-chart"></canvas>
+    <!-- Round-shape chart (pie chart) -->
+    <div class="chart-container">
+      <canvas id="payoffChart"></canvas>
+    </div>
 
-    <!-- Amortization Schedule Section -->
+    <!-- Amortization schedule -->
     <h2>Amortization Schedule</h2>
-    <div class="table-responsive"> <!-- Wrapper for responsive table -->
-      <table class="amortization-table">
+    <div style="overflow-x: auto;">
+      <table>
         <thead>
           <tr>
             <th>Year</th>
@@ -50,7 +73,10 @@
     </div>
   </div>
 
-  <!-- Footer Section omitted for brevity -->
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2024 Early Payoff Calculator. All Rights Reserved.</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
