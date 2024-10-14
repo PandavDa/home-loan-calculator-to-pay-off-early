@@ -4,23 +4,26 @@ function calculatePayoff() {
   const loanTerm = parseFloat(document.getElementById('loan-term').value);
   const currentMonthlyPayment = parseFloat(document.getElementById('current-monthly-payment').value);
   const payoffGoal = parseFloat(document.getElementById('payoff-goal').value);
-  const extraPayment = parseFloat(document.getElementById('extra-payment-amount').value);
+  const extraPayment = parseFloat(document.getElementById('extra-payment-amount').value) || 0;
 
   const totalInterestPaid = loanAmount * interestRate * loanTerm;
   const payoffDate = loanTerm - payoffGoal;
   const extraPaymentAmount = (totalInterestPaid / payoffDate) - currentMonthlyPayment;
   const newMonthlyPayment = currentMonthlyPayment + extraPaymentAmount;
 
+  const totalAmountPaid = newMonthlyPayment * payoffGoal * 12;
+  const interestSaved = totalInterestPaid - totalAmountPaid;
+
   document.getElementById('result-summary').innerHTML = `
     <h3>Results</h3>
     <p>Original Payoff Date: ${loanTerm} years</p>
     <p>New Payoff Date: ${payoffGoal} years</p>
-    <p>Total Interest Saved: $${(totalInterestPaid - (newMonthlyPayment * payoffGoal * 12)).toFixed(2)}</p>
-    <p>Total Amount Paid: $${(newMonthlyPayment * payoffGoal * 12).toFixed(2)}</p>
+    <p>Total Interest Saved: $${interestSaved.toFixed(2)}</p>
+    <p>Total Amount Paid: $${totalAmountPaid.toFixed(2)}</p>
   `;
 
   generateAmortizationSchedule(loanAmount, interestRate, loanTerm, currentMonthlyPayment);
-  generateChart(newMonthlyPayment, currentMonthlyPayment, loanTerm);
+  updateChart(interestSaved, totalAmountPaid);
 }
 
 function generateAmortizationSchedule(loanAmount, interestRate, loanTerm, monthlyPayment) {
@@ -45,33 +48,27 @@ function generateAmortizationSchedule(loanAmount, interestRate, loanTerm, monthl
   }
 }
 
-function generateChart(newMonthlyPayment, currentMonthlyPayment, loanTerm) {
-  const ctx = document.getElementById('payoff-chart').getContext('2d');
-  const data = {
-    labels: ['Original Payment', 'New Payment'],
-    datasets: [{
-      label: 'Monthly Payments',
-      data: [currentMonthlyPayment, newMonthlyPayment],
-      backgroundColor: ['#4ECDC4', '#00203FFF'],
-      hoverOffset: 4
-    }]
-  };
-  const config = {
-    type: 'doughnut',
-    data: data,
+// Function to update round-shaped chart
+function updateChart(interestSaved, totalAmountPaid) {
+  const ctx = document.getElementById('payoffChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['Interest Saved', 'Total Amount Paid'],
+      datasets: [{
+        label: 'Payoff Summary',
+        data: [interestSaved, totalAmountPaid],
+        backgroundColor: ['#4ECDC4', '#00203FFF']
+      }]
+    },
     options: {
       responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'top',
-        }
-      }
+      maintainAspectRatio: false
     }
-  };
-  new Chart(ctx, config);
+  });
 }
 
+// Function to export data to PDF
 function exportToPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
