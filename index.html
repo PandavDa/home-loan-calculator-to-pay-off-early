@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Early Payoff Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Early Payoff Calculator for Home Loans</h1>
+    <form id="payoff-calculator">
+      <!-- Input fields for the calculator -->
+      <label for="loan-amount">Loan Amount:</label>
+      <input type="number" id="loan-amount" required><br>
+
+      <label for="interest-rate">Interest Rate (%):</label>
+      <input type="number" id="interest-rate" required><br>
+
+      <label for="loan-term">Loan Term (Years):</label>
+      <input type="number" id="loan-term" required><br>
+
+      <label for="current-monthly-payment">Current Monthly Payment:</label>
+      <input type="number" id="current-monthly-payment" required><br>
+
+      <label for="payoff-goal">Payoff Goal (Years):</label>
+      <input type="number" id="payoff-goal" required><br>
+
+      <label for="extra-payment-amount">Extra Payment Amount:</label>
+      <input type="number" id="extra-payment-amount"><br>
+
+      <button type="button" onclick="calculatePayoff()">Calculate</button>
+      <button type="button" onclick="exportToPDF()">Export to PDF</button>
+    </form>
+
+    <!-- Result section -->
+    <div id="result-summary">
+      <!-- Calculation results will go here -->
+    </div>
+
+    <!-- Amortization schedule -->
+    <h2>Amortization Schedule</h2>
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Principal Paid</th>
+            <th>Interest Paid</th>
+            <th>Total Payment</th>
+            <th>Remaining Balance</th>
+          </tr>
+        </thead>
+        <tbody id="schedule-body">
+          <!-- Amortization data will go here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer style="background-color: #00203FFF; padding: 20px; color: #fff; text-align: center;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+      
+      <!-- Links List -->
+      <div style="flex: 1; min-width: 250px; margin-bottom: 20px;">
+        <h3 style="color: #4ECDC4;">Quick Links</h3>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li><a href="#calculator" style="color: #fff; text-decoration: none;">Calculator</a></li>
+          <li><a href="#amortization-schedule" style="color: #fff; text-decoration: none;">Amortization Schedule</a></li>
+          <li><a href="#result-summary" style="color: #fff; text-decoration: none;">Results</a></li>
+          <li><a href="#charts" style="color: #fff; text-decoration: none;">Charts</a></li>
+        </ul>
+      </div>
+
+      <!-- Follow Us -->
+      <div style="flex: 1; min-width: 250px; margin-bottom: 20px;">
+        <h3 style="color: #4ECDC4;">Follow Us</h3>
+        <div style="display: flex; justify-content: center;">
+          <a href="https://www.facebook.com" target="_blank" style="margin-right: 15px;">
+            <img src="https://img.icons8.com/color/48/000000/facebook.png" alt="Facebook" style="width: 24px;">
+          </a>
+          <a href="https://twitter.com" target="_blank" style="margin-right: 15px;">
+            <img src="https://img.icons8.com/color/48/000000/twitter.png" alt="Twitter" style="width: 24px;">
+          </a>
+          <a href="https://www.instagram.com" target="_blank" style="margin-right: 15px;">
+            <img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="Instagram" style="width: 24px;">
+          </a>
+          <a href="https://www.linkedin.com" target="_blank">
+            <img src="https://img.icons8.com/color/48/000000/linkedin.png" alt="LinkedIn" style="width: 24px;">
+          </a>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div style="flex: 1; min-width: 250px; margin-bottom: 20px;">
+        <h3 style="color: #4ECDC4;">&copy; 2024 Your Company</h3>
+        <p>All rights reserved.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <style>
+    /* Responsive adjustments for smaller screens */
+    @media (max-width: 768px) {
+      footer div {
+        margin-bottom: 20px;
+      }
+
+      /* Make sure links and icons are centered on smaller devices */
+      footer div ul, footer div h3, footer div p, footer div img {
+        text-align: center;
+      }
+
+      /* Stack the content vertically for better layout on mobile */
+      footer div {
+        flex-basis: 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+</body>
+</html>
