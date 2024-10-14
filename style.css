@@ -1,20 +1,21 @@
-/* Styles for the calculator and footer */
 body {
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
   margin: 0;
   padding: 0;
-  color: #333;
+}
+
+header {
+  text-align: center;
+  background-color: #00203FFF;
+  color: white;
+  padding: 20px;
 }
 
 .container {
   max-width: 960px;
   margin: auto;
   padding: 20px;
-}
-
-h1, h2, h3 {
-  color: #00203FFF;
 }
 
 form {
@@ -42,9 +43,6 @@ button {
   border: none;
   color: white;
   padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
   border-radius: 4px;
@@ -55,10 +53,16 @@ button:hover {
   background-color: #008C76;
 }
 
+canvas {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
+  margin-top: 20px;
 }
 
 th, td {
@@ -69,4 +73,45 @@ th, td {
 th {
   background-color: #4ECDC4;
   color: white;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  form {
+    padding: 10px;
+  }
+}
+
+footer {
+  background-color: #00203FFF;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+footer .footer-content div {
+  margin: 10px;
+}
+
+footer .links ul {
+  list-style-type: none;
+}
+
+footer .links ul li {
+  margin-bottom: 5px;
+}
+
+footer .links ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+footer .social img {
+  width: 30px;
+  margin-right: 10px;
 }
