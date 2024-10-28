@@ -1,1 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Calculator-to Pay Off House Early - Early Payoff Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <!-- Header Section -->
+  <header class="header">
 
+    <div class="logo">
+        <img src="early-payoff-calculator~2.jpg" alt="Early Pay Off Calculator" style="height: 120px; width: 100%"> <!-- Logo as image -->
+    </div>
+
+ 
+<NavBar>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+</style>
+
+
+<div class="topnav" id="myTopnav">
+  <a href="index.html" class="active">Home</a>
+  <a href="Blogs.html">Blogs</a>
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
+
+</NavBar>
+
+    <p>Calculate your home loan early payoff and view detailed amortization schedules.</p>
+  </header>
+  <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+    .results {
+        display: none;
+    }
+</style>
+
+<div class="container my-5">
+    <h1 class="text-center mb-4">Calculator to Pay Off House Early</h1>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <form id="mortgageForm">
+                        <div class="mb-3">
+                            <label for="loanAmount" class="form-label">Loan Amount ($)</label>
+                            <input type="number" class="form-control" id="loanAmount" placeholder="e.g., 300000" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="interestRate" class="form-label">Annual Interest Rate (%)</label>
+                            <input type="number" step="0.01" class="form-control" id="interestRate" placeholder="e.g., 3.5" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loanTerm" class="form-label">Loan Term (years)</label>
+                            <input type="number" class="form-control" id="loanTerm" placeholder="e.g., 30" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="extraPayment" class="form-label">Additional Monthly Payment ($)</label>
+                            <input type="number" class="form-control" id="extraPayment" placeholder="e.g., 200">
+                        </div>
+                        <button type="button" class="btn btn-primary w-100" onclick="calculatePayoff()">Calculate</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="results mt-4" id="results">
+                <h3 class="text-center">Results</h3>
+                <p><strong>Original Monthly Payment:</strong> $<span id="originalMonthlyPayment"></span></p>
+                <p><strong>New Monthly Payment:</strong> $<span id="newMonthlyPayment"></span></p>
+                <p><strong>Time Saved:</strong> <span id="timeSaved"></span> months</p>
+                <p><strong>Interest Saved:</strong> $<span id="interestSaved"></span></p>
+                <p><strong>New Payoff Date:</strong> <span id="newPayoffDate"></span></p>
+                
+                <!-- Chart Canvas -->
+                <canvas id="payoffChart" class="my-4"></canvas>
+                
+                <!-- Export to PDF button -->
+                <button type="button" class="btn btn-success w-100" onclick="exportToPDF()">Export Results to PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<script>
+let payoffChart;
+
+function calculatePayoff() {
+    const loanAmount = parseFloat(document.getElementById("loanAmount").value);
+    const interestRate = parseFloat(document.getElementById("interestRate").value) / 100 / 12;
+    const loanTerm = parseInt(document.getElementById("loanTerm").value) * 12;
+    const extraPayment = parseFloat(document.getElementById("extraPayment").value || 0);
+
+    const originalMonthlyPayment = loanAmount * interestRate / (1 - Math.pow(1 + interestRate, -loanTerm));
+    document.getElementById("originalMonthlyPayment").textContent = originalMonthlyPayment.toFixed(2);
+
+    let balance = loanAmount;
+    let totalInterest = 0;
+    let months = 0;
+    const balances = [balance];  // Track balances for chart
+
+    while (balance > 0) {
+        const interestForMonth = balance * interestRate;
+        totalInterest += interestForMonth;
+        const payment = originalMonthlyPayment + extraPayment;
+
+        if (balance + interestForMonth <= payment) {
+            months++;
+            break;
+        }
+
+        balance = balance + interestForMonth - payment;
+        balances.push(balance);
+        months++;
+    }
+
+    const timeSaved = loanTerm - months;
+    const interestSaved = (originalMonthlyPayment * loanTerm - loanAmount) - totalInterest;
+    const newPayoffDate = new Date();
+    newPayoffDate.setMonth(newPayoffDate.getMonth() + months);
+
+    document.getElementById("newMonthlyPayment").textContent = (originalMonthlyPayment + extraPayment).toFixed(2);
+    document.getElementById("timeSaved").textContent = timeSaved;
+    document.getElementById("interestSaved").textContent = interestSaved.toFixed(2);
+    document.getElementById("newPayoffDate").textContent = newPayoffDate.toLocaleDateString();
+    document.getElementById("results").style.display = "block";
+
+    updateChart(balances);
+}
+
+function updateChart(balances) {
+    const ctx = document.getElementById('payoffChart').getContext('2d');
+    if (payoffChart) {
+        payoffChart.destroy();
+    }
+    payoffChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Array.from({length: balances.length}, (_, i) => i + 1),
+            datasets: [{
+                label: 'Remaining Balance ($)',
+                data: balances,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { title: { display: true, text: 'Months' } },
+                y: { title: { display: true, text: 'Balance ($)' } }
+            }
+        }
+    });
+}
+
+function exportToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.text("Mortgage Payoff Calculator Results", 10, 10);
+
+    doc.setFontSize(12);
+    doc.text(`Original Monthly Payment: $${document.getElementById("originalMonthlyPayment").textContent}`, 10, 30);
+    doc.text(`New Monthly Payment: $${document.getElementById("newMonthlyPayment").textContent}`, 10, 40);
+    doc.text(`Time Saved: ${document.getElementById("timeSaved").textContent} months`, 10, 50);
+    doc.text(`Interest Saved: $${document.getElementById("interestSaved").textContent}`, 10, 60);
+    doc.text(`New Payoff Date: ${document.getElementById("newPayoffDate").textContent}`, 10, 70);
+
+    doc.text("See chart for balance progression:", 10, 90);
+
+    const canvas = document.getElementById("payoffChart");
+    const imgData = canvas.toDataURL("image/png");
+    doc.addImage(imgData, 'PNG', 10, 100, 180, 80);
+
+    doc.save("Mortgage_Payoff_Calculator_Results.pdf");
+}
+</script>
+
+<!-- Footer Section -->
+<footer style="background-color: #00203FFF; padding: 20px; margin-top: 40px; color: #fff; text-align: center;">
+  <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+    
+    <!-- Follow Us -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #4ECDC4;">Follow Us</h3>
+      <a href="https://www.facebook.com" target="_blank" style="margin-right: 20px; display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/facebook.png" alt="Facebook" style="width: 36px;">
+      </a>
+      <a href="https://twitter.com" target="_blank" style="margin-right: 20px; display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/twitter.png" alt="Twitter" style="width: 36px;">
+      </a>
+      <a href="https://www.instagram.com" target="_blank" style="margin-right: 20px; display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="Instagram" style="width: 36px;">
+      </a>
+      <a href="https://www.linkedin.com" target="_blank" style="display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/linkedin.png" alt="LinkedIn" style="width: 36px;">
+      </a>
+    </div>
+    
+    <!-- Links List -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #4ECDC4;">Quick Links</h3>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 12px;"><a href="about.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">About Us</a></li>
+        <li style="margin-bottom: 12px;"><a href="contact.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">Contact Us</a></li>
+        <li style="margin-bottom: 12px;"><a href="Privacy-Policy.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">Privacy and Policy</a></li>
+        <li style="margin-bottom: 12px;"><a href="Terms-and-Conditions.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">Term and Service</a></li>
+      </ul>
+    </div>
+
+    <!-- Copyright -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #4ECDC4;">&copy; 2024 Pay Off Calculator</h3>
+      <p>All rights reserved.</p>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>
