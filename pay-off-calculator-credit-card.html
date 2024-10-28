@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Privacy and Policy olicy - Early Payoff Calculator</title>
+  <link rel="stylesheet" href="style.css">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+ <!-- Header Section -->
+  <header class="header">
+
+    <div class="logo">
+        <img src="early-payoff-calculator~2.jpg" alt="Early Pay Off Calculator" style="height: 120px; width: 100%"> <!-- Logo as image -->
+    </div>
+
+ 
+<NavBar>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+</style>
+
+
+<div class="topnav" id="myTopnav">
+  <a href="index.html" class="active">Home</a>
+  <a href="Blogs.html">Blogs</a>
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
+
+</NavBar>
+
+    <p>Calculate your home loan early payoff and view detailed amortization schedules.</p>
+  </header>
+  <!-- Footer Section -->
+<footer style="background-color: #00203FFF; padding: 20px; margin-top: 40px; color: #fff; text-align: center;">
+  <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+    <!--calculator-->
+    <div class="container mt-5">
+        <h1 class="text-center">Credit Card Pay-Off Calculator</h1>
+        <form id="calculator-form" class="mt-4">
+<!-- Example Inputs -->
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label for="cardBalance" class="form-label">Card Balance ($)</label>
+        <input type="number" class="form-control" id="cardBalance" value="5000" required>
+    </div>
+    <div class="col-md-4">
+        <label for="interestRate" class="form-label">Interest Rate (%)</label>
+        <input type="number" class="form-control" id="interestRate" value="15.5" step="0.01" required>
+    </div>
+    <div class="col-md-4">
+        <label for="minimumPayment" class="form-label">Minimum Payment ($)</label>
+        <input type="number" class="form-control" id="minimumPayment" value="150" required>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label for="payOffPeriod" class="form-label">Desired Pay-Off Period (Months)</label>
+        <input type="number" class="form-control" id="payOffPeriod" value="12" required>
+    </div>
+    <div class="col-md-4">
+        <label for="monthlyPayment" class="form-label">Monthly Payment ($)</label>
+        <input type="number" class="form-control" id="monthlyPayment" value="450" required>
+    </div>
+    <div class="col-md-4">
+        <label for="dueDate" class="form-label">Payment Due Date</label>
+        <input type="date" class="form-control" id="dueDate" value="2024-11-30" required>
+    </div>
+</div>
+
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </form>
+
+        <div id="results" class="mt-5"></div>
+        <div>
+            <canvas id="payOffChart"></canvas>
+        </div>
+        <button id="exportPDF" class="btn btn-success mt-3">Export to PDF</button>
+    </div>
+<script>
+document.getElementById('calculator-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const cardBalance = parseFloat(document.getElementById('cardBalance').value);
+    const interestRate = parseFloat(document.getElementById('interestRate').value) / 100;
+    const payOffPeriod = parseInt(document.getElementById('payOffPeriod').value);
+    const monthlyPayment = parseFloat(document.getElementById('monthlyPayment').value);
+
+    const results = calculatePayOff(cardBalance, interestRate, payOffPeriod);
+    displayResults(results);
+    displayChart(results.monthlyPayments);
+});
+
+function calculatePayOff(cardBalance, interestRate, payOffPeriod) {
+    const totalInterest = (cardBalance * interestRate) * payOffPeriod;
+    const totalAmount = cardBalance + totalInterest;
+    const monthlyPayment = totalAmount / payOffPeriod;
+
+    const monthlyPayments = Array(payOffPeriod).fill(monthlyPayment);
+
+    return {
+        totalInterest: totalInterest.toFixed(2),
+        totalAmount: totalAmount.toFixed(2),
+        monthlyPayment: monthlyPayment.toFixed(2),
+        monthlyPayments: monthlyPayments
+    };
+}
+
+function displayResults({ totalInterest, totalAmount, monthlyPayment }) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = `
+        <h3>Calculation Results:</h3>
+        <b><p style="color:	#0d97ff";>Total Interest Paid: $${totalInterest}</p></b>
+        <b><p style="color:	#0d97ff";>Total Amount Paid: $${totalAmount}</p></b>
+        <b><p style="color:	#0d97ff";>Monthly Payment: $${monthlyPayment}</p></b>
+    `;
+}
+
+function displayChart(monthlyPayments) {
+    const ctx = document.getElementById('payOffChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: monthlyPayments.map((_, index) => `Month ${index + 1}`),
+            datasets: [{
+                label: 'Monthly Payments',
+                data: monthlyPayments,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+document.getElementById('exportPDF').addEventListener('click', function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text('Credit Card Pay-Off Calculator Results', 10, 10);
+    const results = document.getElementById('results').innerText;
+    doc.text(results, 10, 30);
+    doc.save('credit_card_payoff_PandavDa.pdf');
+});
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Follow Us -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #4ECDC4;">Follow Us</h3>
+      <a href="https://www.facebook.com" target="_blank" style="margin-right: 20px; display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/facebook.png" alt="Facebook" style="width: 36px;">
+      </a>
+      <a href="https://twitter.com" target="_blank" style="margin-right: 20px; display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/twitter.png" alt="Twitter" style="width: 36px;">
+      </a>
+      <a href="https://www.instagram.com" target="_blank" style="margin-right: 20px; display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="Instagram" style="width: 36px;">
+      </a>
+      <a href="https://www.linkedin.com" target="_blank" style="display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/linkedin.png" alt="LinkedIn" style="width: 36px;">
+      </a>
+    </div>
+    
+    <!-- Links List -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #4ECDC4;">Quick Links</h3>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 12px;"><a href="about.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">About Us</a></li>
+        <li style="margin-bottom: 12px;"><a href="contact.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">Contact Us</a></li>
+        <li style="margin-bottom: 12px;"><a href="Privacy-Policy.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">Privacy and Policy</a></li>
+        <li style="margin-bottom: 12px;"><a href="Terms-and-Conditions.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">Term and Service</a></li>
+      </ul>
+    </div>
+
+    <!-- Copyright -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #4ECDC4;">&copy; 2024 Pay Off Calculator</h3>
+      <p>All rights reserved.</p>
+    </div>
+
+  </div>
+</footer>
