@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Use this advanced and user-friendly calculator to determine how paying off your loan or mortgage early can save you time and money. Compare your options and make informed financial decisions.">
+  <meta name="keywords" content="calculator for paying off a loan, calculator for paying mortgage off early, calculator for paying off loan early, should I pay off my mortgage or invest calculator, mortgage payoff calculator, loan early payoff calculator, mortgage savings calculator, financial planning tools, loan repayment strategies">
+  <title>calculator for paying mortgage off early</title>
+  <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSvZipVnlHjSw0I5VRldbasBNl_kYoC9z4cWktn9cB380cS0vAkOCiQsB5rZfKEajrPu2LhlRyXDHrbDDecBSdpNjpSJYOzckXLbiR8O_gY3j-pgGbnkhv66wMJe3v4NTBvP0wzLq1RUj-HnTrbnut5T7WEldcEEhRejTPLd0xNf2LytfFazgsjKGM-qH3/s320/Favicon.png" type="image/png" sizes="16x16"></link>
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js library for round-shaped chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header">
+
+    <div class="logo">
+        <img src="early-payoff-calculator~2.jpg" alt="Early Pay Off Calculator" style="height: 120px; width: 100%"> <!-- Logo as image -->
+    </div>
+    <p>Calculate your home loan early payoff and view detailed amortization schedules.</p>
+     
+<NavBar>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+</style>
+
+
+<div class="topnav" id="myTopnav">
+  <a href="index.html" class="active">Home</a>
+  <a href="Blogs.html">Blogs</a>
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
+
+</NavBar>
+  </header>
+<style>
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+
+}
+
+
+.container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.input-section, .output-section {
+  margin-bottom: 20px;
+}
+
+.input-section input {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+}
+
+.input-section input:focus {
+  outline: 2px solid #00f2fe;
+}
+
+.output-section {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.output-section h2 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.result p {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#chart {
+  width: 200px;
+  height: 200px;
+}
+
+.schedule {
+  max-height: 150px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.schedule table {
+  width: 100%;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.schedule th, .schedule td {
+  padding: 5px;
+  text-align: left;
+}
+
+.schedule th {
+  background: rgba(0, 198, 255, 0.5);
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  input {
+    font-size: 0.9rem;
+  }
+}
+
+</style>
+<script>
+// Chart initialization
+let chart;
+
+function createChart(interest, principal) {
+  const ctx = document.getElementById('chart').getContext('2d');
+  if (chart) chart.destroy(); // Destroy existing chart
+  chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Interest', 'Principal'],
+      datasets: [
+        {
+          data: [interest, principal],
+          backgroundColor: ['#ff6384', '#36a2eb'],
+          hoverBackgroundColor: ['#ff6384', '#36a2eb'],
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+        },
+      },
+    },
+  });
+}
+
+function calculateMortgage() {
+  // Get input values
+  const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+  const annualRate = parseFloat(document.getElementById('annualRate').value);
+  const loanTerm = parseInt(document.getElementById('loanTerm').value, 10);
+  const extraPayment = parseFloat(document.getElementById('extraPayment').value);
+
+  // Validate inputs
+  if (isNaN(loanAmount) || isNaN(annualRate) || isNaN(loanTerm) || isNaN(extraPayment)) {
+    document.getElementById('results').innerHTML = '<p>Please fill out all fields with valid numbers.</p>';
+    return;
+  }
+
+  const monthlyRate = annualRate / 12 / 100;
+  const numPayments = loanTerm * 12;
+
+  // Calculate original monthly payment
+  const monthlyPayment = loanAmount * monthlyRate / (1 - Math.pow(1 + monthlyRate, -numPayments));
+
+  let remainingBalance = loanAmount;
+  let months = 0;
+  let totalInterestPaid = 0;
+  let schedule = [];
+
+  // Amortization with extra payments
+  while (remainingBalance > 0) {
+    months++;
+    const interest = remainingBalance * monthlyRate;
+    totalInterestPaid += interest;
+    let principal = monthlyPayment + extraPayment - interest;
+
+    if (principal > remainingBalance) {
+      principal = remainingBalance;
+    }
+    remainingBalance -= principal;
+
+    schedule.push({
+      month: months,
+      interest: interest.toFixed(2),
+      principal: principal.toFixed(2),
+      balance: remainingBalance.toFixed(2),
+    });
+
+    // Break if overpaid
+    if (months > numPayments) break;
+  }
+
+  const totalSaved = (monthlyPayment * numPayments) - (totalInterestPaid + loanAmount);
+  const yearsSaved = Math.floor((numPayments - months) / 12);
+  const monthsSaved = (numPayments - months) % 12;
+
+  // Display results
+  document.getElementById('results').innerHTML = `
+    <p><strong>Original Monthly Payment:</strong> $${monthlyPayment.toFixed(2)}</p>
+    <p><strong>Total Interest Paid:</strong> $${totalInterestPaid.toFixed(2)}</p>
+    <p><strong>Total Saved:</strong> $${totalSaved.toFixed(2)}</p>
+    <p><strong>Time Saved:</strong> ${yearsSaved} years and ${monthsSaved} months</p>
+    <p><strong>Payoff Time:</strong> ${Math.floor(months / 12)} years and ${months % 12} months</p>
+  `;
+
+  // Update chart
+  createChart(totalInterestPaid.toFixed(2), loanAmount.toFixed(2));
+
+  // Populate amortization schedule
+  const scheduleTable = schedule
+    .map(
+      (row) => `
+    <tr>
+      <td>${row.month}</td>
+      <td>$${row.interest}</td>
+      <td>$${row.principal}</td>
+      <td>$${row.balance}</td>
+    </tr>
+  `
+    )
+    .join('');
+  document.getElementById('schedule').innerHTML = `
+    <table>
+      <tr>
+        <th>Month</th>
+        <th>Interest</th>
+        <th>Principal</th>
+        <th>Balance</th>
+      </tr>
+      ${scheduleTable}
+    </table>
+  `;
+}
+
+
+// Add event listeners to inputs
+document.querySelectorAll('.input-section input').forEach((input) => {
+  input.addEventListener('input', calculateMortgage);
+});
+
+</script>
+<center>
+<div class="container">
+  <h1>Mortgage Early Payoff Calculator</h1>
+  
+  <div class="input-section">
+    <input type="number" id="loanAmount" placeholder="Loan Amount ($)" />
+    <input type="number" id="annualRate" placeholder="Annual Interest Rate (%)" />
+    <input type="number" id="loanTerm" placeholder="Loan Term (Years)" />
+    <input type="number" id="extraPayment" placeholder="Additional Monthly Payment ($)" />
+    <button onclick="calculateMortgage()">Calculate</button>
+  </div>
+  
+  <div class="output-section">
+    <h2>Results</h2>
+    <div id="results" class="result"></div>
+    
+    <div class="chart-container">
+      <canvas id="chart"></canvas>
+    </div>
+    
+    <div id="schedule" class="schedule"></div>
+  </div>
+</div>
+</center>
+<style>
+button {
+  background-color: #555555;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+  </div>
+   <!-- Footer Section -->
+<footer style="background-color: #00203FFF; padding: 20px; margin-top: 40px; color: #fff; text-align: center;">
+  <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+    
+    <!-- Follow Us -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #4ECDC4;">Follow Us</h3>
+      <a href="https://www.facebook.com" target="_blank" style="margin-right: 20px; display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/facebook.png" alt="Facebook" style="width: 36px;">
+      </a>
+      <a href="https://twitter.com" target="_blank" style="margin-right: 20px; display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/twitter.png" alt="Twitter" style="width: 36px;">
+      </a>
+      <a href="https://www.instagram.com" target="_blank" style="margin-right: 20px; display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="Instagram" style="width: 36px;">
+      </a>
+      <a href="https://www.linkedin.com" target="_blank" style="display: inline-block; padding: 12px;">
+        <img src="https://img.icons8.com/color/48/000000/linkedin.png" alt="LinkedIn" style="width: 36px;">
+      </a>
+    </div>
+    
+    <!-- Links List -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #4ECDC4;">Quick Links</h3>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 12px;"><a href="about.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">About Us</a></li>
+        <li style="margin-bottom: 12px;"><a href="contact.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">Contact Us</a></li>
+        <li style="margin-bottom: 12px;"><a href="Privacy-Policy.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">Privacy and Policy</a></li>
+        <li style="margin-bottom: 12px;"><a href="Terms-and-Conditions.html" style="color: #fff; text-decoration: none; font-size: 18px; padding: 10px;">Term and Service</a></li>
+      </ul>
+    </div>
+
+    <!-- Copyright -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #4ECDC4;">&copy; 2024 Pay Off Calculator</h3>
+      <p>All rights reserved.</p>
+    </div>
+
+  </div>
+</footer>
+  <script src="script.js"></script>
+</body>
+</html>
